@@ -1,25 +1,26 @@
 {% set name = "kaitaistruct" %}
-{% set version = "0.10" %}
+{% set version = "0.11" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/kaitaistruct-{{ version }}.tar.gz
-  sha256: a044dee29173d6afbacf27bcac39daf89b654dd418cfa009ab82d9178a9ae52a
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 053ee764288e78b8e53acf748e9733268acbd579b8d82a427b1805453625d74b
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  skip: true # [py<36]
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
 
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python
+    - setuptools >=38.6.0
   run:
-    - python >=3.6
+    - python
 
 test:
   imports:
@@ -32,9 +33,16 @@ test:
 about:
   home: https://kaitai.io
   summary: 'Kaitai Struct declarative parser generator for binary data: runtime library for Python'
+  description: |
+    This library implements Kaitai Struct API for Python.
+    Kaitai Struct is a declarative language used for describe various binary data structures,
+    laid out in files or in memory: i.e. binary file formats, network stream packet formats, etc.
   license: MIT
+  license_family: MIT
   license_file:
     - LICENSE
+  doc_url: https://doc.kaitai.io/
+  dev_url: https://github.com/kaitai-io/kaitai_struct_python_runtime
 
 extra:
   recipe-maintainers:
